@@ -19,7 +19,7 @@ _ = Translator("PyLavController", Path(__file__))
 
 
 if TYPE_CHECKING:
-    from plcontroller.cog import PyLavController
+    from plcontrollerautodel.cog import PyLavController
 
 
 class IncreaseVolumeButton(discord.ui.Button):

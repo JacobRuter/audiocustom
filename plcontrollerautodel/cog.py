@@ -424,7 +424,7 @@ class PyLavController(
                 embed=await context.pylav.construct_embed(
                     description=_("I am not currently playing anything on this server."), messageable=context
                 ),
-                ephemeral=True,
+                ephemeral=False,
             )
             return
 
@@ -445,7 +445,7 @@ class PyLavController(
             else:
                 msg = _("From now on, I will now repeat the current track.")
         await context.send(
-            embed=await context.pylav.construct_embed(description=msg, messageable=context), ephemeral=True
+            embed=await context.pylav.construct_embed(description=msg, messageable=context), ephemeral=False
         )
 
     async def shuffle(self, context: PyLavContext):
@@ -453,13 +453,13 @@ class PyLavController(
         if isinstance(context, discord.Interaction):
             context = await self.bot.get_context(context)
         if context.interaction and not context.interaction.response.is_done():
-            await context.defer(ephemeral=True)
+            await context.defer(ephemeral=False)
         if not context.player:
             await context.send(
                 embed=await context.pylav.construct_embed(
                     description=_("I am not currently playing anything on this server."), messageable=context
                 ),
-                ephemeral=True,
+                ephemeral=False,
             )
             return
         if context.player.queue.empty():
@@ -467,7 +467,7 @@ class PyLavController(
                 embed=await context.pylav.construct_embed(
                     description=_("The server queue is currently empty."), messageable=context
                 ),
-                ephemeral=True,
+                ephemeral=False,
             )
             return
         if (await self.pylav.player_config_manager.get_shuffle(context.guild.id)) is False:
@@ -475,7 +475,7 @@ class PyLavController(
                 embed=await context.pylav.construct_embed(
                     description=_("You are not allowed to shuffle the queue."), messageable=context
                 ),
-                ephemeral=True,
+                ephemeral=False,
             )
             return
         await context.player.shuffle_queue(context.author.id)
@@ -486,7 +486,7 @@ class PyLavController(
                 ),
                 messageable=context,
             ),
-            ephemeral=True,
+            ephemeral=False,
         )
 
     async def skip(self, context: PyLavContext):
@@ -494,14 +494,14 @@ class PyLavController(
         if isinstance(context, discord.Interaction):
             context = await self.bot.get_context(context)
         if context.interaction and not context.interaction.response.is_done():
-            await context.defer(ephemeral=True)
+            await context.defer(ephemeral=False)
 
         if not context.player or (not context.player.current and not context.player.autoplay_enabled):
             await context.send(
                 embed=await context.pylav.construct_embed(
                     description=_("I am not currently playing anything on this server."), messageable=context
                 ),
-                ephemeral=True,
+                ephemeral=False,
             )
             return
         if context.player.current:
@@ -515,7 +515,7 @@ class PyLavController(
                     thumbnail=await context.player.current.artworkUrl(),
                     messageable=context,
                 ),
-                ephemeral=True,
+                ephemeral=False,
                 file=await context.player.current.get_embedded_artwork(),
             )
         await context.player.skip(requester=context.author)
@@ -525,20 +525,20 @@ class PyLavController(
         if isinstance(context, discord.Interaction):
             context = await self.bot.get_context(context)
         if context.interaction and not context.interaction.response.is_done():
-            await context.defer(ephemeral=True)
+            await context.defer(ephemeral=False)
         if not context.player:
             await context.send(
                 embed=await context.pylav.construct_embed(
                     description=_("I am not currently playing anything on this server."), messageable=context
                 ),
-                ephemeral=True,
+                ephemeral=False,
             )
             return
         if not context.player.paused:
             description = _("The player already resumed")
             await context.send(
                 embed=await context.pylav.construct_embed(description=description, messageable=context),
-                ephemeral=True,
+                ephemeral=False,
             )
             return
 
@@ -547,7 +547,7 @@ class PyLavController(
             embed=await context.pylav.construct_embed(
                 description=_("I have now resumed the player as requested."), messageable=context
             ),
-            ephemeral=True,
+            ephemeral=False,
         )
 
     async def pause(self, context: PyLavContext):
@@ -555,20 +555,20 @@ class PyLavController(
         if isinstance(context, discord.Interaction):
             context = await self.bot.get_context(context)
         if context.interaction and not context.interaction.response.is_done():
-            await context.defer(ephemeral=True)
+            await context.defer(ephemeral=False)
         if not context.player:
             await context.send(
                 embed=await context.pylav.construct_embed(
                     description=_("I am not currently playing anything on this server."), messageable=context
                 ),
-                ephemeral=True,
+                ephemeral=False,
             )
             return
         if context.player.paused:
             description = _("The player is already paused.")
             await context.send(
                 embed=await context.pylav.construct_embed(description=description, messageable=context),
-                ephemeral=True,
+                ephemeral=False,
             )
             return
 
@@ -577,7 +577,7 @@ class PyLavController(
             embed=await context.pylav.construct_embed(
                 description=_("I have now paused the player as requested."), messageable=context
             ),
-            ephemeral=True,
+            ephemeral=False,
         )
 
     async def stop(self, context: PyLavContext):
@@ -591,7 +591,7 @@ class PyLavController(
                 embed=await context.pylav.construct_embed(
                     description=_("I am not currently playing anything on this server."), messageable=context
                 ),
-                ephemeral=True,
+                ephemeral=False,
             )
             return
         await context.player.stop(context.author)
@@ -599,7 +599,7 @@ class PyLavController(
             embed=await context.pylav.construct_embed(
                 description=_("I have stopped the playback and cleared the queue as requested."), messageable=context
             ),
-            ephemeral=True,
+            ephemeral=False,
         )
 
     async def previous(self, context: PyLavContext):
@@ -610,14 +610,14 @@ class PyLavController(
         if isinstance(context, discord.Interaction):
             context = await self.bot.get_context(context)
         if context.interaction and not context.interaction.response.is_done():
-            await context.defer(ephemeral=True)
+            await context.defer(ephemeral=False)
 
         if not context.player:
             await context.send(
                 embed=await context.pylav.construct_embed(
                     description=_("I am not currently playing anything on this server."), messageable=context
                 ),
-                ephemeral=True,
+                ephemeral=False,
             )
             return
 
@@ -626,7 +626,7 @@ class PyLavController(
                 embed=await context.pylav.construct_embed(
                     description=_("The history of tracks is currently empty."), messageable=context
                 ),
-                ephemeral=True,
+                ephemeral=False,
             )
             return
         await context.player.previous(requester=context.author)
@@ -640,7 +640,7 @@ class PyLavController(
                 thumbnail=await context.player.current.artworkUrl(),
                 messageable=context,
             ),
-            ephemeral=True,
+            ephemeral=False,
             file=await context.player.current.get_embedded_artwork(),
         )
 

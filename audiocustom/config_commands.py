@@ -172,9 +172,11 @@ class ConfigCommands(DISCORD_COG_TYPE_MIXIN):
         await self.pylav.player_manager.global_config.update_self_deaf(toggle)
         await context.send(
             embed=await self.pylav.construct_embed(
-                description=_("From now on, I will deafen myself when joining a voice channel.")
-                if toggle
-                else _("From now on, I will no longer deafen myself when joining a voice channel."),
+                description=(
+                    _("From now on, I will deafen myself when joining a voice channel.")
+                    if toggle
+                    else _("From now on, I will no longer deafen myself when joining a voice channel.")
+                ),
                 messageable=context,
             ),
             ephemeral=True,
@@ -231,18 +233,20 @@ class ConfigCommands(DISCORD_COG_TYPE_MIXIN):
         await self.pylav.player_manager.global_config.update_auto_play(toggle)
         await context.send(
             embed=await self.pylav.construct_embed(
-                description=_(
-                    "From now on, I will automatically play songs from the specified playlist when the queue is empty."
-                )
-                if toggle
-                else _(
-                    "From now on, I will no longer automatically play songs from the specified playlist when the queue is empty."
+                description=(
+                    _(
+                        "From now on, I will automatically play songs from the specified playlist when the queue is empty."
+                    )
+                    if toggle
+                    else _(
+                        "From now on, I will no longer automatically play songs from the specified playlist when the queue is empty."
+                    )
                 ),
                 messageable=context,
             ),
             ephemeral=True,
         )
-
+        
     @command_playerset_global.group(name="dc")
     async def command_playerset_global_dc(self, context: PyLavContext) -> None:
         """Set whether I should disconnect from the voice channel."""
